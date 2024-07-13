@@ -24,6 +24,7 @@ while true
     do_something_with(token);
 }
 ```
+Some running examples of this in [example.jai](example.jai), including some toy parser for some code.
 
 ## License
 
