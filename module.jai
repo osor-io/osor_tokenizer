@@ -47,6 +47,7 @@ Token :: struct
         AMPERSAND;
         PERCENT;
         TILDE;
+        CARET;
 
         END;
     }
@@ -299,6 +300,7 @@ tokenize_one_token :: (tokenizer : *Tokenizer, tokens_to_ignore : [] Token.Type 
         else if is_operator(tokenizer, "&")  { advance(); found_token(AMPERSAND);         }
         else if is_operator(tokenizer, "%")  { advance(); found_token(PERCENT);           }
         else if is_operator(tokenizer, "~")  { advance(); found_token(TILDE);             }
+        else if is_operator(tokenizer, "^")  { advance(); found_token(CARET);             }
         else
         {
             current_character := tokenizer.current;
