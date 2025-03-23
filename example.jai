@@ -426,7 +426,6 @@ assemble :: (using parser : *Parser, node_index : int)
 
 
 
-
 #scope_file
 
 
@@ -442,3 +441,144 @@ print_example_name :: (name : string) #expand
 
 
 
+/*
+
+
+##############
+### Simple ###
+##############
+ [0] = INTEGER - 1
+ [1] = FLOAT - 123.123
+ [2] = IDENTIFIER - abc
+ [3] = END -
+
+
+
+###########################
+### One Token At A Time ###
+###########################
+ INTEGER - 1
+ FLOAT - 123.123
+ IDENTIFIER - abc
+Ran out of tokens
+
+
+
+##########################
+### Let's Do Some Code ###
+##########################
+The following code: a = 1 + 2;
+Generates the tree:
+=
+└───+
+    └───2
+    └───1
+└───a
+And the SSA:
+$0 = a
+$1 = 1
+$2 = 2
+$3 = $1 + $2
+$4 = $0 <- $3
+
+The following code: a + b * (c + d[1]);
+Generates the tree:
++
+└───*
+    └───(
+        └───+
+            └───[
+                └───1
+                └───d
+            └───c
+    └───b
+└───a
+And the SSA:
+$0 = a
+$1 = b
+$2 = c
+$3 = d
+$4 = 1
+$5 = $3[$4]
+$6 = $2 + $5
+$7 = $1 * $6
+$8 = $0 + $7
+
+The following code: (a + 1)[123];
+Generates the tree:
+[
+└───123
+└───(
+    └───+
+        └───1
+        └───a
+And the SSA:
+$0 = a
+$1 = 1
+$2 = $0 + $1
+$3 = 123
+$4 = $2[$3]
+
+The following code: b = my_procedure(123);
+Generates the tree:
+=
+└───(
+    └───123
+    └───my_procedure
+└───b
+And the SSA:
+$0 = b
+$1 = my_procedure
+$2 = 123
+$3 = $1($2)
+$4 = $0 <- $3
+
+The following code: (x[123 * (a + b)])(123);
+Generates the tree:
+(
+└───123
+└───(
+    └───[
+        └───*
+            └───(
+                └───+
+                    └───b
+                    └───a
+            └───123
+        └───x
+And the SSA:
+$0 = x
+$1 = 123
+$2 = a
+$3 = b
+$4 = $2 + $3
+$5 = $1 * $4
+$6 = $0[$5]
+$7 = 123
+$8 = $6($7)
+
+The following code: my_procedure(a, b, c + d);
+Generates the tree:
+(
+└───,
+    └───+
+        └───d
+        └───c
+    └───,
+        └───b
+        └───a
+└───my_procedure
+And the SSA:
+$0 = my_procedure
+$1 = a
+$2 = b
+$3 = $1, $2
+$4 = c
+$5 = d
+$6 = $4 + $5
+$7 = $3, $6
+$8 = $0($7)
+
+
+
+*/
