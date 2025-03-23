@@ -1,6 +1,6 @@
 # :coin: A Tokenizing Module for Jai
 
-A simple tokenizing module for the Jai programming language. You can check the code in [module.jai](parse.jai) and a few examples of how to use them in [example.jai](example.jai).
+A simple tokenizing module for the Jai programming language. You can check the code in [module.jai](module.jai) and a few examples of how to use them in [example.jai](example.jai).
 
 ## How To
 
