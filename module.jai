@@ -89,7 +89,7 @@ init_tokenizer :: (tokenizer : *Tokenizer, text : string)
 
 
 
-tokenize_all_tokens :: (tokenizer : *Tokenizer, tokens_to_ignore : [] Token.Type = .[.WHITESPACE, .COMMENT]) -> []Token #must, success : bool, error : string
+tokenize_all_tokens :: (tokenizer : *Tokenizer, tokens_to_ignore : [] Token.Type = .[.WHITESPACE, .COMMENT]) -> []Token, success : bool, error : string
 {
     //
     // @@TODO: Stop doing multiple allocations and reallocations here with the dynamic array.
